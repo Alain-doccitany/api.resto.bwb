@@ -13,7 +13,13 @@
 
 var express = require("express");
 var bodyparser = require("body-parser");
-var listeDeCarte = [];
+var listeDeCarte = [
+    {carte: "aa", id:1[{menu:"aaa",id:11,entrée:"radis",plat:"patate",dessert:"fruit"}]},
+    {carte: "aa"[{ menu: "bbb",id:2, entrée:"radis",plat:"patate",dessert:"fruit"}]},
+    {carte: "aa"[{menu: "eee",id:3, entrée:"radis",plat:"patate",dessert:"fruit"}]},
+    {carte: "aa"[{menu: "ccc",id:4, entrée:"radis",plat:"patate",dessert:"fruit"}]},
+    {carte: "aa"[{menu: "ddd",id:5, entrée:"radis",plat:"patate",dessert:"fruit"}]}
+ ];
 
 //Creation d'un objet express
 
@@ -27,7 +33,7 @@ application.listen(8081,"127.0.0.1");
 application.use(bodyparser.json());
 application.use(bodyparser.urlencoded({extended : true}));
 
-var cartes = listeDeCarte;
+var carte = listeDeCarte;
 
 // Test connexion Test //ok
 application.get('/',
@@ -44,7 +50,7 @@ application.get('/',
 
 //return * cartes / postman ok
 
-application.get('/cartes/get/',
+application.get('/carte/get/',
 
 	function(request,response){
 
@@ -105,47 +111,31 @@ function generateID(){
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-//return une carte par son id
-application.get('/cartes/:id/get',
+application.get('/carte/:id',
 
 	function(request,response){
 
 		response.setHeader('Access-Control-Allow-Origin','*');
 
-	
-                var idCartes = parseInt(request.params.id);
+                var idCarte = parseInt(request.params.id);
 
-		var carte;
+		var card;
 
-	
-                    for(var i = 0 ; i < listeDeCarte.length ; i++){
+                for(var i = 0 ; i < listeDeCarte.length ; i++){
 
-			if(listeDeCarte[i].id === idCartes){
+			if(listeDeCarte[i].id === idCarte){
 
-				film = listeDeCarte[i];
-
-			}
+				card= listeDeCarte[i];
+                                }
                 }
-        //Chainage reponse du serveur: status puis reponse
-
-		response.status(200).json(carte);
-
-		response.status(404).send("Le menu n'existe pas ou n'est pas référencé");
+                //Chainage reponse du serveur: status puis reponse
+                response.status(200).json(film);
+                    //if error
+		response.status(404).send("La carte demandé est undifined");
                 }
 );
-//delete les menu par leur id
+
+                //delete les menu par leur id
 application.delete("/carte/menu/:id",function(req,res){
     var idDuMenu = req.params.id;
     idDuMenu = parseInt(idDuMenu);
@@ -154,8 +144,8 @@ application.delete("/carte/menu/:id",function(req,res){
         if(idDuMenu === listeDeCarte[i].id){
             listeDeCarte.splice(idDuMenu,1);
             response.setHeader('Content-Type','application/json');
-}
-}
+                }
+            }
 response.status(200).json(listeDeCarte);
 });
 
